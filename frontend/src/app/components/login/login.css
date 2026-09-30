@@ -1,0 +1,1275 @@
+/* =========================================
+   MEDICORE LOGIN PAGE
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.login-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 24px;
+
+  background:
+    radial-gradient(
+      circle at 10% 20%,
+      rgba(38, 126, 214, 0.08),
+      transparent 28%
+    ),
+    #eef2f6;
+
+  font-family:
+    "Inter",
+    "Segoe UI",
+    Arial,
+    sans-serif;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.login-wrapper {
+  width: 100%;
+  max-width: 1400px;
+
+  min-height: 760px;
+
+  display: grid;
+  grid-template-columns: 48% 52%;
+
+  overflow: hidden;
+
+  background: white;
+
+  border-radius: 28px;
+
+  box-shadow:
+    0 25px 70px rgba(7, 27, 58, 0.15);
+}
+
+
+/* =========================================
+   LEFT SIDE
+========================================= */
+
+.login-left {
+  position: relative;
+
+  background: #fbfcfd;
+
+  padding: 48px 70px;
+
+  display: flex;
+  flex-direction: column;
+
+  z-index: 2;
+}
+
+
+/* =========================================
+   BRAND
+========================================= */
+
+.brand {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.brand-logo {
+  position: relative;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    linear-gradient(
+      135deg,
+      #1681dd,
+      #0755a5
+    );
+
+  border-radius: 14px;
+
+  color: white;
+
+  box-shadow:
+    0 9px 22px
+    rgba(22, 129, 221, 0.25);
+}
+
+.heart-line {
+  font-size: 24px;
+  line-height: 1;
+}
+
+.brand-logo .plus {
+  position: absolute;
+
+  right: 6px;
+  top: 5px;
+
+  font-size: 12px;
+
+  font-weight: bold;
+}
+
+.brand-text h1 {
+  margin: 0;
+
+  color: #071b3a;
+
+  font-size: 24px;
+
+  font-weight: 800;
+
+  letter-spacing: -0.8px;
+}
+
+.brand-text p {
+  margin: 2px 0 0;
+
+  color: #7c8796;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   LOGIN CONTENT
+========================================= */
+
+.login-content {
+  width: 100%;
+  max-width: 470px;
+
+  margin: auto;
+}
+
+.welcome-section {
+  margin-bottom: 30px;
+}
+
+.welcome-label {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #1677cf;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  letter-spacing: 2px;
+}
+
+.welcome-section h2 {
+  margin: 0;
+
+  color: #071b3a;
+
+  font-size: 39px;
+
+  line-height: 1.13;
+
+  font-weight: 800;
+
+  letter-spacing: -1.6px;
+}
+
+.welcome-section h2 span {
+  color: #1677cf;
+}
+
+.welcome-description {
+  max-width: 410px;
+
+  margin-top: 15px;
+
+  color: #7a8798;
+
+  font-size: 14px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   FORM
+========================================= */
+
+.form-group {
+  margin-bottom: 19px;
+}
+
+.form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #344054;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+.input-wrapper {
+  height: 56px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 11px;
+
+  padding: 0 15px;
+
+  background: white;
+
+  border: 1px solid #dfe5ec;
+
+  border-radius: 13px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: #1677cf;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(22, 119, 207, 0.09);
+}
+
+.input-icon {
+  width: 22px;
+
+  display: flex;
+  justify-content: center;
+
+  color: #94a3b8;
+
+  font-size: 17px;
+}
+
+.input-wrapper input {
+  flex: 1;
+
+  width: 100%;
+  height: 100%;
+
+  border: none;
+  outline: none;
+
+  background: transparent;
+
+  color: #172033;
+
+  font-family: inherit;
+
+  font-size: 14px;
+}
+
+.input-wrapper input::placeholder {
+  color: #a1acba;
+}
+
+
+/* =========================================
+   PASSWORD
+========================================= */
+
+.toggle-password {
+  width: auto;
+
+  padding: 5px 4px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #1677cf;
+
+  font-family: inherit;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+.toggle-password:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   VALIDATION
+========================================= */
+
+.input-invalid {
+  border-color: #ef4444;
+}
+
+.field-error {
+  margin-top: 6px;
+
+  color: #ef4444;
+
+  font-size: 11px;
+}
+
+
+/* =========================================
+   OPTIONS
+========================================= */
+
+.form-options {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin: 2px 0 23px;
+}
+
+.remember-me {
+  display: flex;
+
+  align-items: center;
+
+  gap: 7px;
+
+  color: #748096;
+
+  font-size: 12px;
+
+  cursor: pointer;
+}
+
+.remember-me input {
+  width: 14px;
+  height: 14px;
+
+  accent-color: #1677cf;
+
+  cursor: pointer;
+}
+
+.forgot-password {
+  color: #1677cf;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  text-decoration: none;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   ERROR
+========================================= */
+
+.error-message {
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  margin-bottom: 14px;
+
+  padding: 10px 12px;
+
+  border-radius: 9px;
+
+  background: #fff1f2;
+
+  color: #dc2626;
+
+  font-size: 12px;
+}
+
+.error-icon {
+  width: 18px;
+  height: 18px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #dc2626;
+
+  color: white;
+
+  font-size: 11px;
+
+  font-weight: bold;
+}
+
+
+/* =========================================
+   LOGIN BUTTON
+========================================= */
+
+.login-button {
+  width: 100%;
+  height: 56px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  border: none;
+
+  border-radius: 13px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #177bd6,
+      #0757a7
+    );
+
+  color: white;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 10px 25px
+    rgba(23, 123, 214, 0.23);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.login-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 14px 30px
+    rgba(23, 123, 214, 0.30);
+}
+
+.login-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.login-button:disabled {
+  opacity: 0.75;
+
+  cursor: not-allowed;
+}
+
+.arrow {
+  font-size: 20px;
+
+  line-height: 1;
+}
+
+
+/* =========================================
+   LOADING
+========================================= */
+
+.loading-content {
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.spinner {
+  width: 17px;
+  height: 17px;
+
+  border: 2px solid
+    rgba(255, 255, 255, 0.4);
+
+  border-top-color: white;
+
+  border-radius: 50%;
+
+  animation:
+    spin 0.7s linear infinite;
+}
+
+@keyframes spin {
+
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+
+/* =========================================
+   REGISTER
+========================================= */
+
+.register-section {
+  margin-top: 25px;
+
+  text-align: center;
+
+  color: #7b8798;
+
+  font-size: 12px;
+}
+
+.register-section a {
+  margin-left: 5px;
+
+  color: #1677cf;
+
+  font-weight: 700;
+
+  text-decoration: none;
+}
+
+.register-section a:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================================
+   SECURITY
+========================================= */
+
+.security-note {
+  margin-top: 23px;
+
+  text-align: center;
+
+  color: #9aa5b4;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   RIGHT MEDICAL SIDE
+========================================= */
+
+.medical-side {
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 760px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 70% 30%,
+      rgba(48, 147, 228, 0.23),
+      transparent 25%
+    ),
+    linear-gradient(
+      145deg,
+      #071b3a 0%,
+      #092e60 55%,
+      #075292 100%
+    );
+
+  color: white;
+}
+
+
+/* =========================================
+   CURVED BOUNDARY
+========================================= */
+
+.medical-side::before {
+  content: "";
+
+  position: absolute;
+
+  left: -105px;
+  top: -8%;
+
+  width: 175px;
+  height: 116%;
+
+  background: #fbfcfd;
+
+  border-radius: 50%;
+
+  transform: rotate(7deg);
+
+  z-index: 2;
+}
+
+
+/* =========================================
+   BACKGROUND CIRCLES
+========================================= */
+
+.background-circle {
+  position: absolute;
+
+  border: 1px solid
+    rgba(255, 255, 255, 0.08);
+
+  border-radius: 50%;
+}
+
+.circle-one {
+  width: 500px;
+  height: 500px;
+
+  right: -180px;
+  top: -130px;
+}
+
+.circle-two {
+  width: 350px;
+  height: 350px;
+
+  left: 100px;
+  bottom: -180px;
+}
+
+.circle-three {
+  width: 180px;
+  height: 180px;
+
+  right: 70px;
+  bottom: 90px;
+}
+
+
+/* =========================================
+   LEAVES
+========================================= */
+
+.leaf {
+  position: absolute;
+
+  width: 100px;
+  height: 170px;
+
+  border-radius:
+    100% 0 100% 0;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(77, 174, 245, 0.15),
+      rgba(20, 95, 166, 0.02)
+    );
+
+  transform: rotate(35deg);
+}
+
+.leaf-one {
+  left: 50px;
+  top: 60px;
+}
+
+.leaf-two {
+  right: 20px;
+  bottom: 10px;
+
+  transform: rotate(130deg);
+}
+
+.leaf-three {
+  right: 160px;
+  top: 170px;
+
+  width: 60px;
+  height: 110px;
+
+  transform: rotate(-35deg);
+}
+
+
+/* =========================================
+   PLUS SIGNS
+========================================= */
+
+.medical-plus {
+  position: absolute;
+
+  color:
+    rgba(105, 190, 255, 0.22);
+
+  font-size: 42px;
+
+  font-weight: 200;
+}
+
+.plus-one {
+  right: 120px;
+  top: 100px;
+}
+
+.plus-two {
+  left: 130px;
+  bottom: 160px;
+
+  font-size: 28px;
+}
+
+
+/* =========================================
+   MEDICAL ICON
+========================================= */
+
+.medical-icon {
+  position: absolute;
+
+  right: 100px;
+  top: 145px;
+
+  width: 48px;
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 15px;
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  color: #69c2ff;
+
+  font-size: 20px;
+
+  z-index: 3;
+}
+
+
+/* =========================================
+   RIGHT CONTENT
+========================================= */
+
+.medical-content {
+  position: relative;
+
+  z-index: 4;
+
+  width: 70%;
+  max-width: 510px;
+
+  margin-left: 55px;
+
+  text-align: center;
+}
+
+.health-badge {
+  width: fit-content;
+
+  margin: 0 auto 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  padding: 8px 14px;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.14);
+
+  border-radius: 30px;
+
+  background:
+    rgba(255, 255, 255, 0.06);
+
+  backdrop-filter: blur(8px);
+
+  color: #a9dcff;
+
+  font-size: 11px;
+}
+
+.medical-content h2 {
+  margin: 0;
+
+  font-size: 45px;
+
+  line-height: 1.1;
+
+  font-weight: 800;
+
+  letter-spacing: -1.8px;
+}
+
+.medical-content h2 span {
+  color: #58b6ff;
+}
+
+.medical-content > p {
+  max-width: 410px;
+
+  margin: 17px auto 0;
+
+  color: #a9bfd6;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   STETHOSCOPE
+========================================= */
+
+.stethoscope-area {
+  position: relative;
+
+  height: 270px;
+
+  margin-top: 8px;
+}
+
+.glow {
+  position: absolute;
+
+  left: 50%;
+  top: 25px;
+
+  width: 220px;
+  height: 220px;
+
+  transform: translateX(-50%);
+
+  border-radius: 50%;
+
+  background:
+    rgba(44, 160, 242, 0.16);
+
+  filter: blur(25px);
+}
+
+.stethoscope {
+  position: relative;
+
+  width: 230px;
+  height: 230px;
+
+  margin: auto;
+}
+
+.stetho-tube {
+  position: absolute;
+
+  left: 32px;
+  top: 22px;
+
+  width: 130px;
+  height: 115px;
+
+  border:
+    10px solid #72c6ff;
+
+  border-top: none;
+
+  border-radius:
+    0 0 100px 100px;
+}
+
+.stetho-tube-small {
+  position: absolute;
+
+  left: 76px;
+  top: 78px;
+
+  width: 80px;
+  height: 80px;
+
+  border:
+    8px solid #5eb9f5;
+
+  border-top: none;
+
+  border-radius:
+    0 0 70px 70px;
+}
+
+.stetho-chest {
+  position: absolute;
+
+  right: 15px;
+  top: 3px;
+
+  width: 61px;
+  height: 61px;
+
+  border:
+    8px solid #8bd5ff;
+
+  border-radius: 50%;
+}
+
+.chest-inner {
+  width: 28px;
+  height: 28px;
+
+  margin: 8px auto;
+
+  border-radius: 50%;
+
+  background: #2d86c8;
+}
+
+.stetho-head {
+  position: absolute;
+
+  left: 91px;
+  top: 140px;
+
+  width: 49px;
+  height: 49px;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #72c6ff;
+
+  box-shadow:
+    0 8px 25px
+    rgba(0, 0, 0, 0.2);
+}
+
+.head-inner {
+  width: 26px;
+  height: 26px;
+
+  border-radius: 50%;
+
+  background: #164f87;
+}
+
+
+/* =========================================
+   HEALTH CARD
+========================================= */
+
+.health-card {
+  width: 350px;
+
+  margin: -20px auto 0;
+
+  padding: 15px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 13px;
+
+  text-align: left;
+
+  border-radius: 15px;
+
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.13);
+
+  backdrop-filter: blur(10px);
+}
+
+.health-card-icon {
+  width: 44px;
+  height: 44px;
+
+  flex-shrink: 0;
+
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background:
+    rgba(79, 178, 255, 0.18);
+
+  color: #71c7ff;
+
+  font-size: 19px;
+}
+
+.health-card-text strong {
+  display: block;
+
+  font-size: 12px;
+}
+
+.health-card-text span {
+  display: block;
+
+  margin-top: 4px;
+
+  color: #9bb2ca;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   FOOTER
+========================================= */
+
+.medical-footer {
+  position: absolute;
+
+  right: 32px;
+  bottom: 23px;
+
+  color:
+    rgba(255, 255, 255, 0.32);
+
+  font-size: 9px;
+
+  letter-spacing: 1px;
+
+  z-index: 4;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 1100px) {
+
+  .login-page {
+    padding: 18px;
+  }
+
+  .login-wrapper {
+    grid-template-columns: 50% 50%;
+  }
+
+  .login-left {
+    padding: 40px;
+  }
+
+  .welcome-section h2 {
+    font-size: 34px;
+  }
+
+  .medical-content {
+    margin-left: 35px;
+  }
+
+  .medical-content h2 {
+    font-size: 38px;
+  }
+
+}
+
+
+/* =========================================
+   SMALL TABLET
+========================================= */
+
+@media (max-width: 800px) {
+
+  .login-page {
+    display: block;
+
+    padding: 0;
+  }
+
+  .login-wrapper {
+    min-height: 100vh;
+    min-height: 100dvh;
+
+    display: block;
+
+    border-radius: 0;
+  }
+
+  .login-left {
+    min-height: 680px;
+
+    padding: 35px 30px;
+  }
+
+  .login-content {
+    margin-top: 50px;
+  }
+
+  .medical-side {
+    min-height: 580px;
+  }
+
+  .medical-side::before {
+    display: none;
+  }
+
+  .medical-content {
+    width: 80%;
+
+    margin: 0;
+  }
+
+  .medical-content h2 {
+    font-size: 36px;
+  }
+
+  .medical-footer {
+    display: none;
+  }
+
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 520px) {
+
+  .login-left {
+    min-height: 650px;
+
+    padding:
+      28px 20px;
+  }
+
+  .brand-logo {
+    width: 43px;
+    height: 43px;
+  }
+
+  .brand-text h1 {
+    font-size: 21px;
+  }
+
+  .login-content {
+    margin-top: 45px;
+  }
+
+  .welcome-section h2 {
+    font-size: 31px;
+  }
+
+  .welcome-description {
+    font-size: 13px;
+  }
+
+  .form-options {
+    align-items: flex-start;
+  }
+
+  .medical-side {
+    min-height: 530px;
+  }
+
+  .medical-content {
+    width: 90%;
+  }
+
+  .medical-content h2 {
+    font-size: 32px;
+  }
+
+  .medical-content > p {
+    font-size: 12px;
+  }
+
+  .stethoscope-area {
+    transform: scale(0.82);
+
+    margin-top: -5px;
+  }
+
+  .health-card {
+    width: 290px;
+
+    margin-top: -35px;
+  }
+
+  .leaf-one {
+    left: -20px;
+  }
+
+  .circle-one {
+    right: -250px;
+  }
+
+  .medical-icon {
+    right: 25px;
+    top: 80px;
+  }
+
+}
+
+
+/* =========================================
+   ACCESSIBILITY
+========================================= */
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible {
+  outline:
+    3px solid
+    rgba(23, 119, 207, 0.35);
+
+  outline-offset: 3px;
+}

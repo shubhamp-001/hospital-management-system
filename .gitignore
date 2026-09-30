@@ -1,0 +1,15 @@
+# .NET
+backend/bin/
+backend/obj/
+backend/.vs/
+backend/*.csproj.user
+backend/appsettings.Development.json
+
+# Angular
+frontend/node_modules/
+frontend/dist/
+frontend/.angular/
+frontend/.vs/
+# Logs
+*.log
+backend/appsettings.json

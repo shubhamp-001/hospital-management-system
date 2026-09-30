@@ -1,0 +1,114 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Doctors</h2>
+      <p class="page-subtitle">Manage your hospital's medical professionals</p>
+    </div>
+    @if (canWrite()) {
+      <button class="btn-primary" (click)="toggleForm()">
+        {{ showForm ? 'Cancel' : '+ Add Doctor' }}
+      </button>
+    }
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search doctors..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (showForm && canWrite()) {
+    <div class="form-card">
+      <h3>New Doctor</h3>
+      <form (ngSubmit)="addDoctor()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Select User (Doctor role)</label>
+            <select [(ngModel)]="newDoctor.userId" name="userId" required>
+              <option [value]="0" disabled>Select a user</option>
+              @for (user of availableUsers; track user.userId) {
+                <option [value]="user.userId">{{ user.fullName }} ({{ user.email }})</option>
+              }
+            </select>
+            @if (availableUsers.length === 0) {
+              <p class="hint">No available users with the Doctor role. Register one first.</p>
+            }
+          </div>
+          <div class="form-group">
+            <label>Department</label>
+            <select [(ngModel)]="newDoctor.departmentId" name="departmentId" required>
+              <option [value]="0" disabled>Select</option>
+              @for (dept of departments; track dept.departmentId) {
+                <option [value]="dept.departmentId">{{ dept.name }}</option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Specialization</label>
+            <input type="text" [(ngModel)]="newDoctor.specialization" name="specialization" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Available From</label>
+            <input type="time" [(ngModel)]="newDoctor.availableFrom" name="availableFrom" required />
+          </div>
+          <div class="form-group">
+            <label>Available To</label>
+            <input type="time" [(ngModel)]="newDoctor.availableTo" name="availableTo" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="!newDoctor.userId || !newDoctor.departmentId">Save Doctor</button>
+      </form>
+    </div>
+  }
+
+  <div class="doctors-grid">
+    @for (doctor of filteredDoctors; track doctor.doctorId) {
+      <div class="doctor-card">
+        <div class="card-top">
+          <div class="doctor-avatar">{{ doctor.user?.fullName?.charAt(0) || '?' }}</div>
+          <div class="doctor-info">
+            <div class="doctor-name">Dr. {{ doctor.user?.fullName || 'Unknown' }}</div>
+            <div class="doctor-specialization">{{ doctor.specialization }}</div>
+            <div class="doctor-department">{{ doctor.department?.name || '-' }} Department</div>
+          </div>
+
+          @if (canWrite()) {
+            <div class="card-menu">
+              <button class="menu-btn" (click)="toggleMenu(doctor.doctorId!)">⋮</button>
+              @if (openMenuId === doctor.doctorId) {
+                <div class="dropdown-menu">
+                  <button class="dropdown-item danger" (click)="deleteDoctor(doctor.doctorId!)">Delete</button>
+                </div>
+              }
+            </div>
+          }
+        </div>
+
+        <div class="card-bottom">
+          <span class="availability-badge">● {{ formatTime(doctor.availableFrom) }} - {{ formatTime(doctor.availableTo) }}</span>
+        </div>
+      </div>
+    }
+  </div>
+
+  @if (filteredDoctors.length === 0) {
+    <div class="no-data">No doctors found.</div>
+  }
+</div>

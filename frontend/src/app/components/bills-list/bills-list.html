@@ -1,0 +1,101 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Bills & Payments</h2>
+      <p class="page-subtitle">Manage hospital bills and payment records</p>
+    </div>
+  </div>
+
+  <div class="summary-grid">
+    <div class="summary-card">
+      <span class="summary-label">Total Revenue</span>
+      <span class="summary-value">{{ totalRevenue | currency:'INR' }}</span>
+    </div>
+    <div class="summary-card">
+      <span class="summary-label">Total Bills</span>
+      <span class="summary-value">{{ bills().length }}</span>
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="success-message">{{ successMessage() }}</div>
+  }
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search patient..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </div>
+  </div>
+
+  <div class="table-card">
+    <table class="bills-table">
+      <thead>
+        <tr>
+          <th>Invoice</th>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>Consultation</th>
+          <th>Medicines</th>
+          <th>Total</th>
+          @if (canWrite()) { <th></th> }
+        </tr>
+      </thead>
+      <tbody>
+        @for (b of filteredBills; track b.billId) {
+          <tr>
+            <td class="invoice-link" (click)="viewBill(b.billId)">INV-{{ b.billId.toString().padStart(3, '0') }}</td>
+            <td>{{ b.patientName || 'Unknown' }}</td>
+            <td>Dr. {{ b.doctorName || 'Unknown' }}</td>
+            <td>{{ b.consultationFee | currency:'INR' }}</td>
+            <td>{{ b.medicineCharges | currency:'INR' }}</td>
+            <td class="total-cell">{{ b.totalAmount | currency:'INR' }}</td>
+            @if (canWrite()) {
+              <td class="actions-cell">
+                <button class="btn-danger-text" (click)="deleteBill(b.billId)">Delete</button>
+              </td>
+            }
+          </tr>
+        }
+        @if (filteredBills.length === 0) {
+          <tr>
+            <td [attr.colspan]="canWrite() ? 7 : 6" class="no-data">No bills found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (canWrite()) {
+    <div class="form-card">
+      <h3>Generate Bill</h3>
+      <div class="generate-bill-form">
+        <select [(ngModel)]="selectedAppointmentId" name="appointmentId">
+          <option [ngValue]="null">-- Select Appointment --</option>
+          @for (a of appointments(); track a.appointmentId) {
+            <option [ngValue]="a.appointmentId">
+              #{{ a.appointmentId }} — Patient {{ a.patientId }} / Doctor {{ a.doctorId }} — {{ a.appointmentDate }}
+            </option>
+          }
+        </select>
+        <input
+          type="number"
+          [(ngModel)]="consultationFee"
+          name="consultationFee"
+          placeholder="Consultation fee (₹)"
+          min="0"
+        />
+        <button class="btn-primary" (click)="generateBill()">Generate Bill</button>
+      </div>
+      <p class="hint">Medicine charges are added automatically from the patient's prescriptions.</p>
+    </div>
+  }
+</div>

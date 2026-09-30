@@ -1,0 +1,118 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Medicines</h2>
+      <p class="page-subtitle">Manage pharmacy inventory and stock levels</p>
+    </div>
+    @if (canWrite()) {
+      <button class="btn-primary" (click)="toggleForm()">
+        {{ showForm ? 'Cancel' : '+ Add Medicine' }}
+      </button>
+    }
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search medicine..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </div>
+
+    <select
+      class="filter-select"
+      [ngModel]="stockFilter()"
+      (ngModelChange)="setStockFilter($event)"
+    >
+      <option value="all">All Stock</option>
+      <option value="low">Low Stock Only</option>
+    </select>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (showForm && canWrite()) {
+    <div class="form-card">
+      <h3>{{ editingId ? 'Edit Medicine' : 'New Medicine' }}</h3>
+      <form (ngSubmit)="save()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Name</label>
+            <input type="text" [(ngModel)]="formModel.name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label>Price (₹)</label>
+            <input type="number" step="0.01" [(ngModel)]="formModel.price" name="price" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Stock Quantity</label>
+            <input type="number" [(ngModel)]="formModel.stockQuantity" name="stockQuantity" required />
+          </div>
+          <div class="form-group">
+            <label>Low Stock Threshold</label>
+            <input type="number" [(ngModel)]="formModel.lowStockThreshold" name="lowStockThreshold" required />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">{{ editingId ? 'Update Medicine' : 'Save Medicine' }}</button>
+      </form>
+    </div>
+  }
+
+  <div class="table-card">
+    <table class="medicines-table">
+      <thead>
+        <tr>
+          <th>Medicine</th>
+          <th>Stock</th>
+          <th>Price</th>
+          <th>Threshold</th>
+          <th>Status</th>
+          @if (canWrite()) { <th></th> }
+        </tr>
+      </thead>
+      <tbody>
+        @for (m of filteredMedicines; track m.medicineId) {
+          <tr>
+            <td>
+              <div class="medicine-cell">
+                <div class="icon-box">💊</div>
+                <span class="medicine-name">{{ m.name }}</span>
+              </div>
+            </td>
+            <td>{{ m.stockQuantity }}</td>
+            <td>{{ m.price | currency:'INR' }}</td>
+            <td>{{ m.lowStockThreshold }}</td>
+            <td>
+              <span class="status-badge" [ngClass]="stockStatus(m)">{{ stockLabel(m) }}</span>
+            </td>
+            @if (canWrite()) {
+              <td class="actions-cell">
+                <button class="menu-btn" (click)="toggleMenu(m.medicineId)">⋮</button>
+                @if (openMenuId === m.medicineId) {
+                  <div class="dropdown-menu">
+                    <button class="dropdown-item" (click)="startEdit(m)">Edit</button>
+                    <button class="dropdown-item danger" (click)="deleteMedicine(m.medicineId)">Delete</button>
+                  </div>
+                }
+              </td>
+            }
+          </tr>
+        }
+        @if (filteredMedicines.length === 0) {
+          <tr>
+            <td [attr.colspan]="canWrite() ? 6 : 5" class="no-data">No medicines found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

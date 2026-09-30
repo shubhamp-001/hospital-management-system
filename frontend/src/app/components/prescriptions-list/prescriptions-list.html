@@ -1,0 +1,122 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Prescriptions</h2>
+      <p class="page-subtitle">Manage patient prescriptions</p>
+    </div>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search patient or doctor..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  <div class="table-card">
+    <table class="prescriptions-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Doctor</th>
+          <th>Date</th>
+          <th>Medicines</th>
+          @if (canWrite()) { <th></th> }
+        </tr>
+      </thead>
+      <tbody>
+        @for (p of filteredPrescriptions; track p.prescriptionId) {
+          <tr>
+            <td>
+              <div class="patient-cell">
+                <div class="avatar">{{ (p.patientName || '?').charAt(0) }}</div>
+                <span class="patient-name">{{ p.patientName || 'Unknown patient' }}</span>
+              </div>
+            </td>
+            <td>Dr. {{ p.doctorName || 'Unknown' }}</td>
+            <td>{{ p.appointmentDate | date:'dd MMM yyyy' }}</td>
+            <td>
+              <div class="medicine-chips">
+                @for (pm of p.prescriptionMedicines; track pm.id) {
+                  <span class="chip">
+                    {{ pm.medicineName }} x{{ pm.quantity }}
+                    @if (pm.dosage) { · {{ pm.dosage }} }
+                  </span>
+                }
+              </div>
+            </td>
+            @if (canWrite()) {
+              <td class="actions-cell">
+                <button class="btn-danger-text" (click)="deletePrescription(p.prescriptionId)">Delete</button>
+              </td>
+            }
+          </tr>
+        }
+        @if (filteredPrescriptions.length === 0) {
+          <tr>
+            <td [attr.colspan]="canWrite() ? 5 : 4" class="no-data">No prescriptions found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+  @if (canWrite()) {
+    <div class="form-card">
+      <h3>Add Prescription</h3>
+      <form (ngSubmit)="savePrescription()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Appointment</label>
+            <select [(ngModel)]="selectedAppointmentId" name="appointmentId" required>
+              <option [ngValue]="null">-- Select Appointment --</option>
+              @for (a of appointments(); track a.appointmentId) {
+                <option [ngValue]="a.appointmentId">
+                  #{{ a.appointmentId }} — Patient {{ a.patientId }} / Doctor {{ a.doctorId }} — {{ a.appointmentDate }} {{ a.appointmentTime }}
+                </option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Notes</label>
+            <input [(ngModel)]="notes" name="notes" placeholder="Notes" />
+          </div>
+        </div>
+
+        <div class="medicine-picker">
+          <select [(ngModel)]="selectedMedicineId" name="medicineId">
+            <option [ngValue]="null">-- Select Medicine --</option>
+            @for (m of medicines(); track m.medicineId) {
+              <option [ngValue]="m.medicineId">{{ m.name }} (Stock: {{ m.stockQuantity }})</option>
+            }
+          </select>
+          <input [(ngModel)]="selectedQuantity" name="quantity" type="number" min="1" title="Quantity" />
+          <input [(ngModel)]="selectedDosage" name="dosage" type="text" placeholder="Dosage, e.g. 1 tablet twice daily" />
+          <button type="button" class="btn-secondary" (click)="addMedicineToPick()">Add Medicine</button>
+        </div>
+
+        @if (pickedMedicines.length > 0) {
+          <ul class="picked-list">
+            @for (pm of pickedMedicines; track $index) {
+              <li>
+                {{ pm.medicineName }} x{{ pm.quantity }} — {{ pm.dosage }}
+                <button type="button" class="remove-btn" (click)="removePickedMedicine($index)">Remove</button>
+              </li>
+            }
+          </ul>
+        }
+
+        <button type="submit" class="btn-primary">Save Prescription</button>
+      </form>
+    </div>
+  }
+</div>

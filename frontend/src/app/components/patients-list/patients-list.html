@@ -1,0 +1,123 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Patients</h2>
+      <p class="page-subtitle">Manage patient records and information</p>
+    </div>
+    @if (canWrite()) {
+      <button class="btn-primary" (click)="toggleForm()">
+        {{ showForm ? 'Cancel' : '+ Add Patient' }}
+      </button>
+    }
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search patients..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </div>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+
+  @if (showForm && canWrite()) {
+    <div class="form-card">
+      <h3>New Patient</h3>
+      <form (ngSubmit)="addPatient()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" [(ngModel)]="newPatient.fullName" name="fullName" required />
+          </div>
+          <div class="form-group">
+            <label>Contact Number</label>
+            <input type="text" [(ngModel)]="newPatient.contactNumber" name="contactNumber" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Address</label>
+            <input type="text" [(ngModel)]="newPatient.address" name="address" required />
+          </div>
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <input type="date" [(ngModel)]="newPatient.dateOfBirth" name="dateOfBirth" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Gender</label>
+            <select [(ngModel)]="newPatient.genderId" name="genderId" required>
+              <option [value]="0" disabled>Select</option>
+              <option *ngFor="let gender of genders" [value]="gender.genderId">{{ gender.genderName }}</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Medical History</label>
+            <input type="text" [(ngModel)]="newPatient.medicalHistory" name="medicalHistory" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary">Save Patient</button>
+      </form>
+    </div>
+  }
+
+  <div class="table-card">
+    <table class="patients-table">
+      <thead>
+        <tr>
+          <th>Patient</th>
+          <th>Contact</th>
+          <th>Address</th>
+          <th>DOB</th>
+          <th>Gender</th>
+          @if (canWrite()) { <th>Actions</th> }
+        </tr>
+      </thead>
+      <tbody>
+        @for (patient of filteredPatients; track patient.patientId) {
+          <tr>
+            <td>
+              <div class="patient-cell">
+                <div class="avatar">{{ patient.fullName.charAt(0) }}</div>
+                <div>
+                  <div class="patient-name">{{ patient.fullName }}</div>
+                  <div class="patient-id">PAT-{{ patient.patientId }}</div>
+                </div>
+              </div>
+            </td>
+            <td>{{ patient.contactNumber }}</td>
+            <td>{{ patient.address }}</td>
+            <td>{{ patient.dateOfBirth | date:'dd MMM yyyy' }}</td>
+            <td>{{ getGenderName(patient.genderId) }}</td>
+            @if (canWrite()) {
+              <td class="actions-cell">
+                <button class="menu-btn" (click)="toggleMenu(patient.patientId!)">⋮</button>
+                @if (openMenuId === patient.patientId) {
+                  <div class="dropdown-menu">
+                    <button class="dropdown-item danger" (click)="deletePatient(patient.patientId!)">Delete</button>
+                  </div>
+                }
+              </td>
+            }
+          </tr>
+        }
+        @if (filteredPatients.length === 0) {
+          <tr>
+            <td [attr.colspan]="canWrite() ? 6 : 5" class="no-data">No patients found.</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>

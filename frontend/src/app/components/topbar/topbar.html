@@ -1,0 +1,29 @@
+<header class="topbar">
+  <div class="search-box">
+    <span class="search-icon">🔍</span>
+    <input type="text" placeholder="Search patients, doctors..." />
+  </div>
+
+  <div class="topbar-right">
+    <button class="icon-btn">🔔</button>
+
+    <div class="user-menu" (click)="toggleMenu()">
+      <div class="avatar">{{ fullName()?.charAt(0) }}</div>
+      <div class="user-info">
+        <span class="user-name">{{ fullName() }}</span>
+        <span class="user-role">{{ role() }}</span>
+      </div>
+      <span class="chevron">▾</span>
+
+      @if (showMenu) {
+        <div class="dropdown">
+          <div class="dropdown-header">
+            <strong>{{ fullName() }}</strong>
+            <span>{{ role() }}</span>
+          </div>
+          <button class="dropdown-item" (click)="logout()">Logout</button>
+        </div>
+      }
+    </div>
+  </div>
+</header>

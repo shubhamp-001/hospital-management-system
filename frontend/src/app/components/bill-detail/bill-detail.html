@@ -1,0 +1,98 @@
+<div class="page-container">
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+    <button class="btn-secondary" (click)="goBack()">← Back to Bills</button>
+  }
+
+  @if (bill(); as b) {
+    <div class="detail-toolbar">
+      <button class="btn-secondary" (click)="goBack()">← Back to Bills</button>
+      <button class="btn-primary" (click)="print()">🖨 Print Invoice</button>
+    </div>
+
+    <div class="invoice-card">
+      <div class="invoice-header">
+        <div class="brand">
+          <div class="brand-logo">
+            <span class="heart-line">♥</span>
+            <span class="plus">+</span>
+          </div>
+          <div>
+            <h2>MedicoRe</h2>
+            <p>Your Health, Connected.</p>
+          </div>
+        </div>
+        <div class="invoice-meta">
+          <div class="invoice-number">INV-{{ b.billId.toString().padStart(3, '0') }}</div>
+          <div class="invoice-date">{{ b.appointmentDate | date:'dd MMM yyyy' }}</div>
+        </div>
+      </div>
+
+      <div class="invoice-parties">
+        <div>
+          <span class="label">Patient</span>
+          <div class="value">{{ b.patientName || 'Unknown' }}</div>
+        </div>
+        <div>
+          <span class="label">Doctor</span>
+          <div class="value">Dr. {{ b.doctorName || 'Unknown' }}</div>
+        </div>
+        <div>
+          <span class="label">Appointment ID</span>
+          <div class="value">#{{ b.appointmentId }}</div>
+        </div>
+      </div>
+
+      <table class="line-items">
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Qty</th>
+            <th>Unit Price</th>
+            <th>Amount</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Consultation Fee</td>
+            <td>1</td>
+            <td>{{ b.consultationFee | currency:'INR' }}</td>
+            <td>{{ b.consultationFee | currency:'INR' }}</td>
+          </tr>
+          @for (m of b.medicines; track m.medicineId) {
+            <tr>
+              <td>{{ m.medicineName }}</td>
+              <td>{{ m.quantity }}</td>
+              <td>{{ m.unitPrice | currency:'INR' }}</td>
+              <td>{{ m.lineTotal | currency:'INR' }}</td>
+            </tr>
+          }
+          @if (!b.medicines || b.medicines.length === 0) {
+            <tr>
+              <td colspan="4" class="no-meds">No medicines prescribed for this appointment.</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+
+      <div class="invoice-totals">
+        <div class="total-row">
+          <span>Consultation</span>
+          <span>{{ b.consultationFee | currency:'INR' }}</span>
+        </div>
+        <div class="total-row">
+          <span>Medicines</span>
+          <span>{{ b.medicineCharges | currency:'INR' }}</span>
+        </div>
+        <div class="total-row grand-total">
+          <span>Total Amount</span>
+          <span>{{ b.totalAmount | currency:'INR' }}</span>
+        </div>
+      </div>
+
+      <div class="invoice-footer">
+        Thank you for choosing MedicoRe. Get well soon.
+      </div>
+    </div>
+  }
+</div>

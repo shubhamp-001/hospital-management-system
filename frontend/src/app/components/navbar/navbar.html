@@ -1,0 +1,19 @@
+<nav class="navbar" *ngIf="showNavbar">
+  <div class="navbar-brand">
+    <span>🏥 Hospital Management System</span>
+  </div>
+
+  <div class="navbar-links">
+    <a routerLink="/patients" routerLinkActive="active">Patients</a>
+    <a routerLink="/doctors" routerLinkActive="active">Doctors</a>
+    <a routerLink="/appointments" routerLinkActive="active">Appointments</a>
+    <a routerLink="/medicines">Medicines</a>
+    <a routerLink="/prescriptions" routerLinkActive="active">Prescriptions</a>
+    <a routerLink="/bills" routerLinkActive="active">Bills</a>
+  </div>
+
+  <div class="navbar-user">
+    <span class="user-info">{{ fullName() }} ({{ role() }})</span>
+    <button class="logout-btn" (click)="logout()">Logout</button>
+  </div>
+</nav>

@@ -1,0 +1,136 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Appointments</h2>
+      <p class="page-subtitle">Manage patient appointments and schedule</p>
+    </div>
+    @if (canWrite()) {
+      <button class="btn-primary" (click)="toggleForm()">
+        {{ showForm ? 'Cancel' : '+ New Appointment' }}
+      </button>
+    }
+  </div>
+
+  <div class="toolbar">
+    <div class="search-box">
+      <span class="search-icon">🔍</span>
+      <input
+        type="text"
+        placeholder="Search patient, doctor, reason..."
+        [ngModel]="searchTerm()"
+        (ngModelChange)="searchTerm.set($event)"
+      />
+    </div>
+
+    <select
+      class="filter-select"
+      [ngModel]="doctorFilter()"
+      (ngModelChange)="doctorFilter.set($event)"
+    >
+      <option [ngValue]="0">All Doctors</option>
+      @for (doctor of doctors; track doctor.doctorId) {
+        <option [ngValue]="doctor.doctorId">{{ doctor.user?.fullName }}</option>
+      }
+    </select>
+  </div>
+
+  @if (errorMessage()) {
+    <div class="error-message">{{ errorMessage() }}</div>
+  }
+  @if (successMessage()) {
+    <div class="success-message">{{ successMessage() }}</div>
+  }
+
+  @if (showForm && canWrite()) {
+    <div class="form-card">
+      <h3>New Appointment</h3>
+      <form (ngSubmit)="addAppointment()">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Patient</label>
+            <select [(ngModel)]="newAppointment.patientId" name="patientId" required>
+              <option [value]="0" disabled>Select Patient</option>
+              @for (patient of patients; track patient.patientId) {
+                <option [value]="patient.patientId">{{ patient.fullName }}</option>
+              }
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Doctor</label>
+            <select [(ngModel)]="newAppointment.doctorId" name="doctorId" required>
+              <option [value]="0" disabled>Select Doctor</option>
+              @for (doctor of doctors; track doctor.doctorId) {
+                <option [value]="doctor.doctorId">
+                  {{ doctor.user?.fullName }} ({{ doctor.specialization }})
+                </option>
+              }
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Date</label>
+            <input type="date" [(ngModel)]="newAppointment.appointmentDate" name="appointmentDate" required />
+          </div>
+          <div class="form-group">
+            <label>Time</label>
+            <input type="time" [(ngModel)]="newAppointment.appointmentTime" name="appointmentTime" required />
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Reason</label>
+            <input type="text" [(ngModel)]="newAppointment.reason" name="reason" required placeholder="e.g. Routine checkup" />
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" [disabled]="!newAppointment.patientId || !newAppointment.doctorId">
+          Book Appointment
+        </button>
+      </form>
+    </div>
+  }
+
+  <div class="schedule-card">
+    @for (appt of filteredAppointments; track appt.appointmentId) {
+      <div class="schedule-row">
+        <div class="time-col">
+          <div class="time">{{ formatTime(appt.appointmentTime) }}</div>
+          <div class="date">{{ appt.appointmentDate | date:'dd MMM yyyy' }}</div>
+        </div>
+
+        <div class="avatar">{{ appt.patient?.fullName?.charAt(0) || '?' }}</div>
+
+        <div class="details-col">
+          <div class="patient-name">{{ appt.patient?.fullName || 'Unknown patient' }}</div>
+          <div class="doctor-line">
+            Dr. {{ appt.doctor?.user?.fullName || 'Unknown' }}
+            @if (appt.doctor?.specialization) { · {{ appt.doctor?.specialization }} }
+          </div>
+          @if (appt.reason) {
+            <div class="reason">{{ appt.reason }}</div>
+          }
+        </div>
+
+        <span class="status-badge" [ngClass]="statusClass(appt.status)">{{ appt.status }}</span>
+
+        @if (canWrite()) {
+          <div class="row-menu">
+            <button class="menu-btn" (click)="toggleMenu(appt.appointmentId!)">⋮</button>
+            @if (openMenuId === appt.appointmentId) {
+              <div class="dropdown-menu">
+                <button class="dropdown-item danger" (click)="deleteAppointment(appt.appointmentId!)">Cancel appointment</button>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    @if (filteredAppointments.length === 0) {
+      <div class="no-data">No appointments found.</div>
+    }
+  </div>
+</div>
